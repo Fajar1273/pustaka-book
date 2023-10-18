@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class ModelUser extends CI_Model
-{
+class ModelUser extends CI_Model {
   public function simpanData($data = null){
     $this->db->insert('user', $data);
   }
@@ -17,8 +16,7 @@ class ModelUser extends CI_Model
     $this->db->where($where);
     return $this->db->get();
   }
-  public function getUserLimit()
-  {
+  public function getUserLimit(){
     $this->db->select('*');
     $this->db->from('user');
     $this->db->limit(10, 0);

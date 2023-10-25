@@ -10,7 +10,7 @@
         <?php 
       }?>
 			<?= $this->session->flashdata('pesan'); ?>
-			<a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#kategoriBaruModal"><i
+			<a href=""  class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#kategoriBaruModal"><i
 					class="fas fa-file-alt"></i> Tambah Kategori</a>
 			<table class="table table-hover">
 				<thead>
@@ -26,10 +26,10 @@
           foreach ($kategori as $k) { ?>
             <tr>
               <th scope="row"><?= $a++; ?></th>
-              <td><?= $k['kategori']; ?></td>
+              <td><?= $k['nama_kategori']; ?></td>
               <td>
-                <a href="<?=base_url('buku/ubahBuku/').$k['id'];?>" class="badge badge-info"><i class="fas fa-edit"></i> Ubah</a>
-                <a href="<?=base_url('buku/hapusbuku/').$k['id'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$k['kategori'];?>?');" class="badge badge-danger"><i class="fas fa-trash"></i>Hapus</a>
+                <a href="<?=base_url('buku/ubahBuku/').$k['id_kategori'];?>" class="badge badge-info"><i class="fas fa-edit"></i> Ubah</a>
+                <a href="<?=base_url('buku/hapusbuku/').$k['id_kategori'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$k['nama_kategori'];?>?');" class="badge badge-danger"><i class="fas fa-trash"></i>Hapus</a>
               </td>
             </tr>
             <?php 
@@ -68,7 +68,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-ban"></i> Close</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-ban"></i> Close</button>
 					<button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Tambah</button>
 				</div>
 			</form>

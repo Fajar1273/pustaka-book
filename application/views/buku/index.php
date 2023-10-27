@@ -9,8 +9,7 @@
 			</div>
 			<?php }?>
 			<?= $this->session->flashdata('pesan'); ?>
-			<a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#bukuBaruModal"><i
-					class="fas fa-file-alt"></i> Buku Baru</a>
+			<a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#bukuBaruModal"><i class="fas fa-file-alt"></i> Buku Baru</a>
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -63,8 +62,7 @@
 </div>
 <!-- End of Main Content -->
 <!-- Modal Tambah buku baru-->
-<div class="modal fade" id="bukuBaruModal" tabindex="-1" role="dialog" aria-labelledby="bukuBaruModalLabel"
-	aria-hidden="true">
+<div class="modal fade" id="bukuBaruModal" tabindex="-1" role="dialog" aria-labelledby="bukuBaruModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">

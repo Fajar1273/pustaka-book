@@ -68,6 +68,16 @@ class Autentifikasi extends CI_Controller{
       redirect('autentifikasi');
     }
   }
+  // fungsi logout
+  public function logout(){
+    $data = [
+      "email" => "",
+      "role_id" => ""
+    ];
+    $this->load->view('templates/aute_header', $data);
+    $this->load->view('autentifikasi/login');
+    $this->load->view('templates/aute_footer');
+  }
   // fungsi kalau akses login diblok 
   public function blok(){
     $this->load->view('autentifikasi/blok');

@@ -111,6 +111,34 @@ class Buku extends CI_Controller{
     }
   }
 
+  // fungsi ubah kategori 
+  public function ubahKategori($id){
+    $data['id_kategori'] = $id;
+    $data['judul'] = 'Ubah Data Kategori';
+    $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
+    $data['kategori'] = $this->ModelBuku->kategoriWhere(['id_kategori' => $id])->result_array();
+    $this->form_validation->set_rules(
+      'nama_kategori',
+      'nama kategori',
+      'required|min_length[3]',
+      [
+        'required' => 'Nama Kategori harus diisi',
+        'min_length' => 'Nama Kategori terlalu pendek'
+      ]
+    );
+    if ($this->form_validation->run() == false) {
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/sidebar', $data);
+      $this->load->view('templates/topbar', $data);
+      $this->load->view('buku/ubah_kategori', $data);
+      $this->load->view('templates/footer');
+    } else {
+      $this->ModelBuku->updateKategori(['nama_kategori' => $this->input->post('nama_kategori')], ['id_kategori' => $this->input->post('id')]);
+      redirect('buku/kategori');
+    }
+
+  }
+
   // fungsi hapus kategori 
   public function hapusKategori(){
     $where = ['id' => $this->uri->segment(3)];

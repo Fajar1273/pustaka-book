@@ -1,6 +1,6 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
-	<?= $this->session->flashdata('pesan'); ?>
+	<?= $this->session->flashdata(''); ?>
 	<div class="row">
 		<div class="col-lg-12">
 			<?php if(validation_errors()){?>
@@ -9,7 +9,8 @@
 			</div>
 			<?php }?>
 			<?= $this->session->flashdata('pesan'); ?>
-			<a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#bukuBaruModal"><i class="fas fa-file-alt"></i> Buku Baru</a>
+			<a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#bukuBaruModal"><i
+					class="fas fa-file-alt"></i> Buku Baru</a>
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -48,7 +49,7 @@
               </td>
               <td>
                 <a href="<?=base_url('buku/ubahBuku/').$b['id'];?>" class="badge badge-info"><i class="fas fa-edit"></i> Ubah</a>
-                <a href="<?=base_url('buku/hapusbuku/').$b['id'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$b['judul_buku'];?> ?');" class="badge badge-danger"><i class="fas fa-trash"></i> Hapus</a>
+                <a href="<?=base_url('buku/hapusbuku/').$b['id'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.''.$b['judul_buku'];?> ?');" class="badge badge-danger"><i class="fas fa-trash"></i> Hapus</a>
               </td>
             </tr>
             <?php 
@@ -62,7 +63,8 @@
 </div>
 <!-- End of Main Content -->
 <!-- Modal Tambah buku baru-->
-<div class="modal fade" id="bukuBaruModal" tabindex="-1" role="dialog" aria-labelledby="bukuBaruModalLabel" aria-hidden="true">
+<div class="modal fade" id="bukuBaruModal" tabindex="-1" role="dialog" aria-labelledby="bukuBaruModalLabel"
+	aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -122,5 +124,4 @@
 		</div>
 	</div>
 </div>
-
 <!-- End of Modal Tambah Mneu -->

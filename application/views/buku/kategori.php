@@ -1,6 +1,6 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
-	<?= $this->session->flashdata('pesan'); ?>
+	<?= $this->session->flashdata(''); ?>
 	<div class="row">
 		<div class="col-lg-3">
 			<?php if(validation_errors()){?>
@@ -10,7 +10,7 @@
         <?php 
       }?>
 			<?= $this->session->flashdata('pesan'); ?>
-			<a href=""  class="btn btn-primary mb-3" data-toggle="modal" data-target="#kategoriBaruModal"><i
+			<a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#kategoriBaruModal"><i
 					class="fas fa-file-alt"></i> Tambah Kategori</a>
 			<table class="table table-hover">
 				<thead>
@@ -29,7 +29,7 @@
               <td><?= $k['nama_kategori']; ?></td>
               <td>
                 <a href="<?=base_url('buku/ubahKategori/').$k['id_kategori'];?>" class="badge badge-info"><i class="fas fa-edit"></i> Ubah</a>
-                <a href="<?=base_url('buku/hapusKategori/').$k['id_kategori'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$k['nama_kategori'];?>?');" class="badge badge-danger"><i class="fas fa-trash"></i>Hapus</a>
+                <a href="<?=base_url('buku/hapusKategori/').$k['id_kategori'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$k['id_kategori'];?>?');" class="badge badge-danger"><i class="fas fa-trash"></i>Hapus</a>
               </td>
             </tr>
             <?php 
@@ -56,9 +56,8 @@
 			<form action="<?= base_url('buku/kategori'); ?>" method="post">
 				<div class="modal-body">
 					<div class="form-group">
-						<i class="fas fa-book"></i>
-						<label for="id_kategori">Kategori</label>
-						<input type="text" name="kategori" id="kategori" placeholder="Masukan Nama Kategori" class="form-control form-control-user">
+						<input name="kategori" class="form-control form-control-user">
+		  
 					</div>
 				</div>
 				<div class="modal-footer">

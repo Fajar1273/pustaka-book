@@ -2,7 +2,9 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-9">
-      <?= form_open_multipart(`buku/ubahKategori/$id_kategori`); ?>
+      <?= validation_errors(); ?>
+      <?= $id_kategori ?>
+      <?= form_open_multipart('buku/ubahkategori/'. $id_kategori); ?>
         <?php foreach ($kategori as $k) { ?>
           <input type="text" hidden name="id" value="<?= $k['id_kategori'] ?>">
           <div class="form-group">

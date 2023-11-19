@@ -1,12 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class Buku extends CI_Controller{
-  public function __construct(){
+class Buku extends CI_Controller
+{
+  public function __construct()
+  {
     parent::__construct();
     cek_login();
   }
   //manajemen Buku
-  public function index(){
+  public function index()
+  {
     $data['judul'] = 'Data Buku';
     $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
     //klo pke function tampil dia error karna di model buku ngga ada function tampil() makanya di ganti pke getBuku()
@@ -17,10 +20,14 @@ class Buku extends CI_Controller{
       'required' => 'Judul Buku harus diisi',
       'min_length' => 'Judul buku terlalu pendek'
     ]);
-    $this->form_validation->set_rules('id_kategori', 'Kategori', 
-    'required', [
-      'required' => 'Nama pengarang harus diisi',
-    ]);
+    $this->form_validation->set_rules(
+      'id_kategori',
+      'Kategori',
+      'required',
+      [
+        'required' => 'id kategori harus diisi',
+      ]
+    );
     $this->form_validation->set_rules('pengarang', 'Nama 
     Pengarang', 'required|min_length[3]', [
       'required' => 'Nama pengarang harus diisi',
@@ -31,24 +38,36 @@ class Buku extends CI_Controller{
       'required' => 'Nama penerbit harus diisi',
       'min_length' => 'Nama penerbit terlalu pendek'
     ]);
-    $this->form_validation->set_rules('tahun', 'Tahun Terbit', 
-    'required|min_length[3]|max_length[4]|numeric', [
-      'required' => 'Tahun terbit harus diisi',
-      'min_length' => 'Tahun terbit terlalu pendek',
-      'max_length' => 'Tahun terbit terlalu panjang',
-      'numeric' => 'Hanya boleh diisi angka'
-    ]);
-    $this->form_validation->set_rules('isbn', 'Nomor ISBN', 
-    'required|min_length[3]|numeric', [
-      'required' => 'Nama ISBN harus diisi',
-      'min_length' => 'Nama ISBN terlalu pendek',
-      'numeric' => 'Yang anda masukan bukan angka'
-    ]);
-    $this->form_validation->set_rules('stok', 'Stok', 
-    'required|numeric', [
-      'required' => 'Stok harus diisi',
-      'numeric' => 'Yang anda masukan bukan angka'
-    ]);
+    $this->form_validation->set_rules(
+      'tahun',
+      'Tahun Terbit',
+      'required|min_length[3]|max_length[4]|numeric',
+      [
+        'required' => 'Tahun terbit harus diisi',
+        'min_length' => 'Tahun terbit terlalu pendek',
+        'max_length' => 'Tahun terbit terlalu panjang',
+        'numeric' => 'Hanya boleh diisi angka'
+      ]
+    );
+    $this->form_validation->set_rules(
+      'isbn',
+      'Nomor ISBN',
+      'required|min_length[3]|numeric',
+      [
+        'required' => 'Nama ISBN harus diisi',
+        'min_length' => 'Nama ISBN terlalu pendek',
+        'numeric' => 'Yang anda masukan bukan angka'
+      ]
+    );
+    $this->form_validation->set_rules(
+      'stok',
+      'Stok',
+      'required|numeric',
+      [
+        'required' => 'Stok harus diisi',
+        'numeric' => 'Yang anda masukan bukan angka'
+      ]
+    );
     //konfigurasi sebelum gambar diupload
     $config['upload_path'] = './assets/img/upload/';
     $config['allowed_types'] = 'jpg|png|jpeg';
@@ -63,13 +82,11 @@ class Buku extends CI_Controller{
       $this->load->view('templates/topbar', $data);
       $this->load->view('buku/index', $data);
       $this->load->view('templates/footer');
-    } 
-    else {
+    } else {
       if ($this->upload->do_upload('image')) {
         $image = $this->upload->data();
         $gambar = $image['file_name'];
-      } 
-      else {
+      } else {
         $gambar = '';
       }
       $data = [
@@ -85,12 +102,13 @@ class Buku extends CI_Controller{
         'image' => $gambar
       ];
       $this->ModelBuku->simpanBuku($data);
+      $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert"> Buku Berhasil Ditambah </div>');
       redirect('buku');
     }
   }
-  
-  // fungsi kategori 
-  public function kategori(){
+
+  public function kategori()
+  {
     $data['judul'] = 'Kategori Buku';
     $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
     $data['kategori'] = $this->ModelBuku->getKategori()->result_array();
@@ -101,31 +119,21 @@ class Buku extends CI_Controller{
       $this->load->view('templates/topbar', $data);
       $this->load->view('buku/kategori', $data);
       $this->load->view('templates/footer');
-    } 
-    else {
+    } else {
       $data = [
         'nama_kategori' => $this->input->post('kategori')
       ];
       $this->ModelBuku->simpanKategori($data);
+      $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert"> Kategori Berhasil ditambah </div>');
       redirect('buku/kategori');
     }
   }
-
-  // fungsi ubah kategori 
-  public function ubahKategori($id){
+  public function ubahKategori($id)
+  {
     $data['id_kategori'] = $id;
     $data['judul'] = 'Ubah Data Kategori';
     $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
     $data['kategori'] = $this->ModelBuku->kategoriWhere(['id_kategori' => $id])->result_array();
-
-
-    $this->form_validation->set_rules(
-      'id',
-      'id kategori',
-      'required',
-      [
-        'required' => 'id Kategori harus diisi',
-      ]);
     $this->form_validation->set_rules(
       'nama_kategori',
       'nama kategori',
@@ -133,8 +141,8 @@ class Buku extends CI_Controller{
       [
         'required' => 'Nama Kategori harus diisi',
         'min_length' => 'Nama Kategori terlalu pendek'
-      ]);
-
+      ]
+    );
     if ($this->form_validation->run() == false) {
       $this->load->view('templates/header', $data);
       $this->load->view('templates/sidebar', $data);
@@ -142,23 +150,22 @@ class Buku extends CI_Controller{
       $this->load->view('buku/ubah_kategori', $data);
       $this->load->view('templates/footer');
     } else {
-      $data = [
-        'nama_kategori' => $this->input->post('nama_kategori', true)
-      ];
-      $this->ModelBuku->updateKategori($data, ['id_kategori' => $this->input->post('id')] );
+      $this->ModelBuku->updateKategori(['nama_kategori' => $this->input->post('nama_kategori')], ['id_kategori' => $this->input->post('id')]);
+      $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert"> Kategori Berhasil diubah </div>');
       redirect('buku/kategori');
     }
 
   }
-
-  // fungsi hapus kategori 
-  public function hapusKategori(){
+  public function hapusKategori()
+  {
     $where = ['id_kategori' => $this->uri->segment(3)];
     $this->ModelBuku->hapusKategori($where);
+    $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert"> Kategori Berhasil dihapus </div>');
     redirect('buku/kategori');
+
   }
-  // fungsi ubah buku 
-  public function ubahBuku(){
+  public function ubahBuku()
+  {
     $data['judul'] = 'Ubah Data Buku';
     $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
     $data['buku'] = $this->ModelBuku->bukuWhere(['id' => $this->uri->segment(3)])->result_array();
@@ -170,41 +177,57 @@ class Buku extends CI_Controller{
     $data['kategori'] = $this->ModelBuku->getKategori()->result_array();
     $this->form_validation->set_rules('judul_buku', 'Judul 
     Buku', 'required|min_length[3]', [
-    'required' => 'Judul Buku harus diisi',
-    'min_length' => 'Judul buku terlalu pendek'
+      'required' => 'Judul Buku harus diisi',
+      'min_length' => 'Judul buku terlalu pendek'
     ]);
-    $this->form_validation->set_rules('id_kategori', 'Kategori', 
-    'required', [
-    'required' => 'Nama pengarang harus diisi',
-    ]);
+    $this->form_validation->set_rules(
+      'id_kategori',
+      'Kategori',
+      'required',
+      [
+        'required' => 'Nama pengarang harus diisi',
+      ]
+    );
     $this->form_validation->set_rules('pengarang', 'Nama 
     Pengarang', 'required|min_length[3]', [
-    'required' => 'Nama pengarang harus diisi',
-    'min_length' => 'Nama pengarang terlalu pendek'
+      'required' => 'Nama pengarang harus diisi',
+      'min_length' => 'Nama pengarang terlalu pendek'
     ]);
     $this->form_validation->set_rules('penerbit', 'Nama 
     Penerbit', 'required|min_length[3]', [
-    'required' => 'Nama penerbit harus diisi',
-    'min_length' => 'Nama penerbit terlalu pendek'
+      'required' => 'Nama penerbit harus diisi',
+      'min_length' => 'Nama penerbit terlalu pendek'
     ]);
-    $this->form_validation->set_rules('tahun', 'Tahun Terbit', 
-    'required|min_length[3]|max_length[4]|numeric', [
-    'required' => 'Tahun terbit harus diisi',
-    'min_length' => 'Tahun terbit terlalu pendek',
-    'max_length' => 'Tahun terbit terlalu panjang',
-    'numeric' => 'Hanya boleh diisi angka'
-    ]);
-    $this->form_validation->set_rules('isbn', 'Nomor ISBN', 
-    'required|min_length[3]|numeric', [
-    'required' => 'Nama ISBN harus diisi',
-    'min_length' => 'Nama ISBN terlalu pendek',
-    'numeric' => 'Yang anda masukan bukan angka'
-    ]);
-    $this->form_validation->set_rules('stok', 'Stok',
-    'required|numeric', [
-    'required' => 'Stok harus diisi',
-    'numeric' => 'Yang anda masukan bukan angka'
-    ]);
+    $this->form_validation->set_rules(
+      'tahun',
+      'Tahun Terbit',
+      'required|min_length[3]|max_length[4]|numeric',
+      [
+        'required' => 'Tahun terbit harus diisi',
+        'min_length' => 'Tahun terbit terlalu pendek',
+        'max_length' => 'Tahun terbit terlalu panjang',
+        'numeric' => 'Hanya boleh diisi angka'
+      ]
+    );
+    $this->form_validation->set_rules(
+      'isbn',
+      'Nomor ISBN',
+      'required|min_length[3]|numeric',
+      [
+        'required' => 'Nama ISBN harus diisi',
+        'min_length' => 'Nama ISBN terlalu pendek',
+        'numeric' => 'Yang anda masukan bukan angka'
+      ]
+    );
+    $this->form_validation->set_rules(
+      'stok',
+      'Stok',
+      'required|numeric',
+      [
+        'required' => 'Stok harus diisi',
+        'numeric' => 'Yang anda masukan bukan angka'
+      ]
+    );
     //konfigurasi sebelum gambar diupload
     $config['upload_path'] = './assets/img/upload/';
     $config['allowed_types'] = 'jpg|png|jpeg';
@@ -220,14 +243,12 @@ class Buku extends CI_Controller{
       $this->load->view('templates/topbar', $data);
       $this->load->view('buku/ubah_buku', $data);
       $this->load->view('templates/footer');
-    } 
-    else {
+    } else {
       if ($this->upload->do_upload('image')) {
         $image = $this->upload->data();
         unlink('assets/img/upload/' . $this->input->post('old_pict', TRUE));
         $gambar = $image['file_name'];
-      } 
-      else {
+      } else {
         $gambar = $this->input->post('old_pict', TRUE);
       }
       $data = [
@@ -241,12 +262,15 @@ class Buku extends CI_Controller{
         'image' => $gambar
       ];
       $this->ModelBuku->updateBuku($data, ['id' => $this->input->post('id')]);
+      $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert">Buku Berhasil Diubah </div>');
       redirect('buku');
     }
   }
-  public function hapusBuku(){
-    $where = ['id' => $this->uri->segment(3)];
+  public function hapusBuku()
+  {
+    $where = ["id " => $this->uri->segment(3)];
     $this->ModelBuku->hapusBuku($where);
+    $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert"> Buku Berhasil Dihapus </div>');
     redirect('buku');
   }
 }
